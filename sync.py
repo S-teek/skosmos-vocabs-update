@@ -42,9 +42,9 @@ async def do_sync():
         files.append(file)
         open(file, "wb").write(response.content)
 
-    for file in [files]:
+    for file in files:
         with open(file, "rb") as f:
-            logger.info(">>> Uploading", file)
+            logger.info(f">>> Uploading {file}")
             response = requests.post(url, params=params, headers=headers, data=f)
             logger.info(">>> ", response.status_code, response.text)
     logger.info(">>> Sync finished")
