@@ -16,7 +16,10 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(message)s"
+)
 logger = logging.getLogger()
 
 API_KEY = os.getenv("VOCABS_UPDATE_API_KEY")
@@ -64,7 +67,7 @@ def sync():
             data=bin_f.read()
             logger.info(f">>> Uploading {file}")
             response = requests.post(f"{url}?graph={graph_uris[i]}", headers=headers, data=data, auth=requests.auth.HTTPBasicAuth(USER, PASSWORD))
-            logger.info(f">>> {response.status_code}, {response.text} from uploading {file}")
+            logger.info(f">>> {response.status_code}  {response.text} from uploading {file}")
     logger.info(">>> Sync finished")
     return "Updated"
 
